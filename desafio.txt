@@ -1,0 +1,38 @@
+Desafio da Web 01: Removendo uma Tarefa
+
+Contexto
+Durante a Web 01, criamos a base lógica para uma aplicação de Lista de Tarefas que funciona
+inteiramente no console. Já implementamos funções para adicionar, listar e alternar o status
+de uma tarefa.
+
+O desafio proposto agora é o seguinte: adicione outra funcionalidade essencial: a capacidade
+de remover uma tarefa da lista.
+Em outras palavras: implemente uma funcionalidade de remover uma tarefa da lista,
+baseando-se no seu id.
+
+Requisitos da Tarefa
+1. Crie uma nova função chamada removerTarefa(id).
+2. A função deve receber o id da tarefa a ser removida como um parâmetro.
+3. A função deve encontrar e remover o objeto de tarefa correspondente do array
+tarefas.
+4. Após a remoção, a função deve exibir uma mensagem de confirmação no console
+(ex: >>> Tarefa "Estudar HTML e CSS" removida com sucesso!).
+5. Se um id que não existe for informado, a função deve exibir uma mensagem de erro
+no console (ex: >>> ERRO: Tarefa com ID 99 não encontrada.).
+Dicas para a Implementação
+
+•
+ A maneira mais elegante de fazer isso em JavaScript é usando o método .filter() dos
+arrays. Este método cria um novo array contendo apenas os elementos que passam
+em uma condição. A sua condição seria "manter todas as tarefas cujo ID não é igual ao
+id que queremos remover". Lembre-se de reatribuir o novo array filtrado à sua variável
+tarefas.
+
+•
+ Lógica da Condição: Dentro do .filter(), a lógica que você vai testar para cada tarefa
+será algo como: tarefa.id !== id.
+
+•
+ Método Alternativo: Se preferir, você pode usar um loop for para encontrar o índice do
+elemento no array. Uma vez que tiver o índice, pode usar o método tarefas.splice(indice, 1)
+para remover o item.
