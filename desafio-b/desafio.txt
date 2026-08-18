@@ -1,0 +1,257 @@
+Desafio da Web 02: Aprimorando a Lista de Tarefas
+Nossa Lista de Tarefas já possui a estrutura básica e a lógica de estado funcionando
+perfeitamente: já gerenciamos nossas tarefas através de um array de objetos e conseguimos
+adicionar, renderizar, concluir e remover itens da tela. No entanto, para que o nosso projeto
+se torne uma ferramenta realista, precisamos implementar duas novas funcionalidades
+essenciais. A partir do código base atual (fornecido no Material de Apoio), o desafio de vocês
+é resolver os seguintes problemas:
+Desafio 01: Edição de Tarefas (Update) ➔ Atualmente, se cadastrarmos uma tarefa com erro
+de digitação, a única solução é apagá-la e criar uma nova.
+• O que deve ser feito: Modifique o código para que o usuário consiga alterar o texto de
+uma tarefa já existente.
+• Requisitos:
+1. A interface deve fornecer um meio claro para essa edição (por exemplo,
+adicionando um botão "Editar" no JavaScript ao lado do botão "Remover", ou
+usando um prompt()).
+2. Ao editar, vocês devem localizar o objeto correto dentro do array tarefas (usando
+o id) e atualizar a propriedade nome.
+3. Após a alteração no array, a lista na tela deve refletir o novo texto.
+Desafio 02: Persistência de Dados com localStorage➔ Neste momento, se atualizarmos a
+página do navegador (F5), todas as alterações desaparecem, pois o nosso array tarefas volta
+ao estado inicial definido no código.
+• O que deve ser feito: Utilize a API de Web Storage do navegador para salvar
+permanentemente a lista de tarefas.
+• Requisitos:
+1. Sempre que o array tarefas for modificado (ao adicionar, remover, concluir ou
+editar uma tarefa), o estado atualizado deve ser salvo no localStorage.
+2. Na etapa de INICIALIZAÇÃO do código, o JavaScript deve verificar se já existem
+dados salvos no localStorage. Se houver, esses dados devem substituir o array
+inicial antes de renderizar as tarefas na tela.
+Dicas para o desenvolvimento:
+• Lembrem-se de que o localStorage armazena apenas texto (strings). Como já
+utilizamos um array de objetos, vocês obrigatoriamente precisarão utilizar
+JSON.stringify() para converter os dados antes de salvar, e JSON.parse() no momento
+de recuperar as informações para transformá-las de volta em um array manipulável.
+• Pensem em criar uma função dedicada apenas para salvar no storage (ex:
+salvarTarefas()). Assim, vocês podem chamá-la facilmente dentro das funções que já
+existem (adicionarTarefa, removerTarefa, etc) sem duplicar código.
+Bóra codar!
+
+
+
+
+Index.html
+
+<link rel="stylesheet" href="style.css">
+<div class="container">
+  <h1>Minha Lista de Tarefas 📝</h1>
+
+  <form id="form-tarefa">
+
+    <input
+      type="text"
+      id="input-tarefa"
+      placeholder="Qual é a sua próxima tarefa?"
+      autocomplete="off"
+    />
+
+    <button type="submit">Adicionar</button>
+  </form>
+
+  <ul id="lista-de-tarefas">
+    </ul>
+</div>
+<script src="script.js"></script>
+
+
+----------------------------------------
+
+Style.css
+
+/* Estilo geral e Fundo */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f0f2f5;
+  color: #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+}
+
+/* Container Principal */
+.container {
+  background: white;
+  width: 100%;
+  max-width: 500px;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+  color: #1d4ed8;
+  margin-bottom: 20px;
+}
+
+/* Formulário */
+#form-tarefa {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+#input-tarefa {
+  flex-grow: 1;
+  padding: 10px;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+button {
+  padding: 10px 15px;
+  background-color: #1d4ed8;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* Lista de Tarefas e Itens */
+#lista-de-tarefas {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  background: #f8f9fa;
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between; /* Alinha o texto e o botão */
+  align-items: center;
+}
+
+li span {
+  cursor: pointer;
+  flex-grow: 1; /* Faz o texto ocupar o espaço disponível */
+}
+
+li button {
+  background-color: #ef4444; /* Cor vermelha para o botão remover */
+  font-size: 12px;
+  padding: 5px 10px;
+}
+
+/* Classe para tarefa concluída */
+li.concluida span {
+  text-decoration: line-through;
+  color: #888;
+}
+
+----------------------------------------------
+
+Script.js
+
+
+// --- 1. SELEÇÃO DE ELEMENTOS DO DOM ---
+  const form = document.querySelector("#form-tarefa");
+  const inputTarefa = document.querySelector("#input-tarefa");
+  const listaDeTarefas = document.querySelector("#lista-de-tarefas");
+
+  // --- 2. ESTRUTURA DE DADOS ---
+  let tarefas = [
+    { id: 1, nome: "Aprender a manipular o DOM", concluida: true },
+    { id: 2, nome: "Entender Event Listeners", concluida: false }
+  ];
+
+  // --- 3. FUNÇÕES DE LÓGICA ---
+  function adicionarTarefa(nomeDaNovaTarefa) {
+    const novaTarefa = {
+      id: Date.now(),
+      nome: nomeDaNovaTarefa,
+      concluida: false
+    };
+    tarefas.push(novaTarefa);
+  }
+
+  function alternarStatusTarefa(idDaTarefa) {
+    for (const tarefa of tarefas) {
+      if (tarefa.id === idDaTarefa) {
+        tarefa.concluida = !tarefa.concluida;
+        break;
+      }
+    }
+  }
+
+  function removerTarefa(idDaTarefa) {
+    tarefas = tarefas.filter(tarefa => tarefa.id !== idDaTarefa);
+  }
+
+  // --- 4. FUNÇÃO DE RENDERIZAÇÃO ---
+  function renderizarTarefas() {
+    listaDeTarefas.innerHTML = '';
+
+    for (const tarefa of tarefas) {
+      const itemDaLista = document.createElement('li');
+      const spanTexto = document.createElement('span');
+      const botaoRemover = document.createElement('button');
+
+      spanTexto.textContent = tarefa.nome;
+      botaoRemover.textContent = 'Remover';
+
+      if (tarefa.concluida) {
+        itemDaLista.classList.add('concluida');
+      }
+
+      spanTexto.addEventListener('click', () => {
+        alternarStatusTarefa(tarefa.id);
+        renderizarTarefas();
+      });
+
+      botaoRemover.addEventListener('click', (event) => {
+        event.stopPropagation();
+        removerTarefa(tarefa.id);
+        renderizarTarefas();
+      });
+
+      itemDaLista.appendChild(spanTexto);
+      itemDaLista.appendChild(botaoRemover);
+      listaDeTarefas.appendChild(itemDaLista);
+    }
+  }
+
+  // --- 5. EVENTOS GLOBAIS ---
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const nomeDaNovaTarefa = inputTarefa.value;
+
+    if (nomeDaNovaTarefa.trim() !== "") {
+      adicionarTarefa(nomeDaNovaTarefa);
+      renderizarTarefas();
+      inputTarefa.value = "";
+    } else {
+      // Registro no console para futura implementação de feedback visual
+      console.warn("Atenção: Tentativa de adicionar tarefa em branco interceptada.");
+    }
+  });
+
+  // --- 6. INICIALIZAÇÃO ---
+  renderizarTarefas();
+
+
+  -------------------------------------
+
+  ######################################
+
+  Desafio: Fazer a persistência usando Storage/Jason
+
+
+
+
