@@ -1,0 +1,88 @@
+/* Estilo geral e Fundo */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f2f5;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+/* Container Principal */
+.container {
+    background: white;
+    width: 100%;
+    max-width: 500px;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #1d4ed8;
+    margin-bottom: 20px;
+}
+
+/* Formulário */
+#form-tarefa {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+#input-tarefa {
+    flex-grow: 1;
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px;
+}
+
+button {
+    padding: 10px 15px;
+    background-color: #1d4ed8;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* Lista de Tarefas e Itens */
+#lista-de-tarefas {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    background: #f8f9fa;
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    /* Alinha o texto e o botão */
+    align-items: center;
+}
+
+li span {
+    cursor: pointer;
+    flex-grow: 1;
+    /* Faz o texto ocupar o espaço disponível */
+}
+
+li button {
+    background-color: #ef4444;
+    /* Cor vermelha para o botão remover */
+    font-size: 12px;
+    padding: 5px 10px;
+}
+
+/* Classe para tarefa concluída */
+li.concluida span {
+    text-decoration: line-through;
+    color: #888;
+}

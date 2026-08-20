@@ -1,37 +1,57 @@
-Desafio da Web 02: Aprimorando a Lista de Tarefas
+Pós-Graduação Desenvolvimento Web (SENAC - SP)
+Aula: Linguagens de Interação
+
+###
+
+Desafio da Web 02:
+Aprimorando a Lista de Tarefas
+
 Nossa Lista de Tarefas já possui a estrutura básica e a lógica de estado funcionando
 perfeitamente: já gerenciamos nossas tarefas através de um array de objetos e conseguimos
 adicionar, renderizar, concluir e remover itens da tela. No entanto, para que o nosso projeto
 se torne uma ferramenta realista, precisamos implementar duas novas funcionalidades
 essenciais. A partir do código base atual (fornecido no Material de Apoio), o desafio de vocês
 é resolver os seguintes problemas:
+
+### Desafio 1 ###
+
 Desafio 01: Edição de Tarefas (Update) ➔ Atualmente, se cadastrarmos uma tarefa com erro
 de digitação, a única solução é apagá-la e criar uma nova.
 • O que deve ser feito: Modifique o código para que o usuário consiga alterar o texto de
 uma tarefa já existente.
+
 • Requisitos:
 1. A interface deve fornecer um meio claro para essa edição (por exemplo,
 adicionando um botão "Editar" no JavaScript ao lado do botão "Remover", ou
 usando um prompt()).
+
 2. Ao editar, vocês devem localizar o objeto correto dentro do array tarefas (usando
 o id) e atualizar a propriedade nome.
+
 3. Após a alteração no array, a lista na tela deve refletir o novo texto.
+
+### Desafio 2 ###
+
 Desafio 02: Persistência de Dados com localStorage➔ Neste momento, se atualizarmos a
 página do navegador (F5), todas as alterações desaparecem, pois o nosso array tarefas volta
 ao estado inicial definido no código.
 • O que deve ser feito: Utilize a API de Web Storage do navegador para salvar
 permanentemente a lista de tarefas.
+
 • Requisitos:
 1. Sempre que o array tarefas for modificado (ao adicionar, remover, concluir ou
 editar uma tarefa), o estado atualizado deve ser salvo no localStorage.
+
 2. Na etapa de INICIALIZAÇÃO do código, o JavaScript deve verificar se já existem
 dados salvos no localStorage. Se houver, esses dados devem substituir o array
 inicial antes de renderizar as tarefas na tela.
+
 Dicas para o desenvolvimento:
 • Lembrem-se de que o localStorage armazena apenas texto (strings). Como já
 utilizamos um array de objetos, vocês obrigatoriamente precisarão utilizar
 JSON.stringify() para converter os dados antes de salvar, e JSON.parse() no momento
 de recuperar as informações para transformá-las de volta em um array manipulável.
+
 • Pensem em criar uma função dedicada apenas para salvar no storage (ex:
 salvarTarefas()). Assim, vocês podem chamá-la facilmente dentro das funções que já
 existem (adicionarTarefa, removerTarefa, etc) sem duplicar código.
